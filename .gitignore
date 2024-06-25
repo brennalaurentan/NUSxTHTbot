@@ -2,7 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-BotConfig.java
+!**/src/main/java/bot/BotConfig.java
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
