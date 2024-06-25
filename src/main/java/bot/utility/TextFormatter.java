@@ -20,4 +20,16 @@ public class TextFormatter {
                         + secondGroupText;
         return finalFormattedMessage;
     }
+
+    public static String getFormattedVoteUpdateText(String username, Vote voteType) {
+        String voteStatus = "undetermined";
+        switch (voteType) {
+            case Coming -> voteStatus = "voted COMING";
+            case NotComing -> voteStatus = "voted NOT COMING";
+            case Retract -> voteStatus = "RETRACTED VOTE";
+        }
+        String finalFormattedMessage =
+                "POLL ANSWER DETECTED: " + username + " " + voteStatus;
+        return finalFormattedMessage;
+    }
 }
