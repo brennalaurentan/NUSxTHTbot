@@ -1,5 +1,5 @@
 package bot;
-import bot.updates.VoteUpdate;
+import bot.utility.PollResult;
 import bot.utility.Vote;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
@@ -17,10 +17,13 @@ import java.util.List;
 import static bot.BotConfig.botToken;
 import static bot.commands.CommandKeywords.ALLOCATE_COMMAND;
 import static bot.commands.CommandKeywords.POLL_COMMAND;
-import static bot.utility.DateRetriever.getNextThursday;
-import static bot.utility.GroupSplitter.getSplitGroupNumbers;
-import static bot.utility.TextFormatter.getFormattedAllocateText;
-import static bot.utility.TextFormatter.getFormattedVoteUpdateText;
+import static bot.commands.CommandValidator.isAllocateCommand;
+import static bot.commands.CommandValidator.isPollAnswer;
+import static bot.commands.CommandValidator.isPollCommand;
+import static bot.tools.DateRetriever.getNextThursday;
+import static bot.tools.GroupSplitter.getSplitGroupNumbers;
+import static bot.tools.TextFormatter.getFormattedAllocateText;
+import static bot.tools.TextFormatter.getFormattedVoteUpdateText;
 
 public class Bot extends TelegramLongPollingBot {
 
@@ -28,6 +31,7 @@ public class Bot extends TelegramLongPollingBot {
 
     private String mostRecentPollId = null;
     private ArrayList<User> mostRecentPollComing = new ArrayList<>();
+    private PollResult mostRecentPollResult = null; // stores most recent poll result data
 
     @Override
     public String getBotUsername() {
@@ -44,53 +48,41 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         System.out.println("Update received");
         System.out.println(update.toString());
-        if (update.hasPollAnswer() && update.getPollAnswer().getPollId().equals(mostRecentPollId)) {
+        if (isPollAnswer(update)) {
             PollAnswer thisPollAnswer = update.getPollAnswer();
-            User sender = thisPollAnswer.getUser();
-            String senderUsername = sender.getUserName();
+            mostRecentPollResult.update(thisPollAnswer, mostRecentPoll);
+        } else if (isPollCommand(update)) {
+            Message message = update.getMessage();
+            Long chatId = message.getChatId();
+            String messageText = message.getText();
+            User sender = message.getFrom();
+            Long senderId = sender.getId();
+            String senderUsername = sender.getFirstName();
 
-            if (thisPollAnswer.getOptionIds().isEmpty()) {
-                mostRecentPollComing.remove(sender); // removes only if user is in list
-                System.out.println(getFormattedVoteUpdateText(senderUsername, Vote.Retract));
-                System.out.println("Current coming: " + mostRecentPollComing.toString());
-            } else if (thisPollAnswer.getOptionIds().get(0).equals(0)) {
-                mostRecentPollComing.add(sender);
-                System.out.println(getFormattedVoteUpdateText(senderUsername, Vote.Coming));
-                System.out.println("Current coming: " + mostRecentPollComing.toString());
-            } else if (thisPollAnswer.getOptionIds().get(0).equals(1)) {
-                mostRecentPollComing.remove(sender);
-                System.out.println(getFormattedVoteUpdateText(senderUsername, Vote.NotComing));
-                System.out.println("Current coming: " + mostRecentPollComing.toString());
-            }
-        }
+            List<String> optionList = new ArrayList<>();
+            optionList.add("Coming");
+            optionList.add("Not coming");
+            SendPoll sendPollObj = new SendPoll(chatId.toString(), getNextThursday(), optionList);
+            sendPollObj.setIsAnonymous(false);
 
-        Message message = update.getMessage();
-        Long chatId = message.getChatId();
-        String messageText = message.getText();
-        User sender = message.getFrom();
-        Long senderId = sender.getId();
-        String senderUsername = sender.getFirstName();
-
-        if (message.isCommand()) {
-            if (messageText.equals(POLL_COMMAND)) {
-
-                List<String> optionList = new ArrayList<>();
-                optionList.add("Coming");
-                optionList.add("Not coming");
-                SendPoll sendPollObj = new SendPoll(chatId.toString(), getNextThursday(), optionList);
-                sendPollObj.setIsAnonymous(false);
-
-                try {
-                    Message returnMessage = execute(sendPollObj);
-                    if (returnMessage.hasPoll()) {
-                        mostRecentPoll = returnMessage.getPoll();
-                        mostRecentPollId = mostRecentPoll.getId();
-                    }
-                    mostRecentPollComing = new ArrayList<>();
-                } catch (TelegramApiException e) {
-                    throw new RuntimeException(e);
+            try {
+                Message returnMessage = execute(sendPollObj);
+                if (returnMessage.hasPoll()) {
+                    mostRecentPoll = returnMessage.getPoll();
+                    mostRecentPollResult = new PollResult(mostRecentPoll);
+                    mostRecentPollId = mostRecentPoll.getId();
                 }
-            } else if (messageText.equals(ALLOCATE_COMMAND)) {
+                mostRecentPollComing = new ArrayList<>();
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (isAllocateCommand(update)) {
+                Message message = update.getMessage();
+                Long chatId = message.getChatId();
+                String messageText = message.getText();
+                User sender = message.getFrom();
+                Long senderId = sender.getId();
+                String senderUsername = sender.getFirstName();
                 System.out.println("Entered ALLOCATE");
                 String pollHeader = mostRecentPoll.getQuestion();
                 //sendText(chatId, "Most recent poll is: " + pollHeader);
@@ -110,8 +102,6 @@ public class Bot extends TelegramLongPollingBot {
 
             }
         }
-
-        System.out.println(senderUsername + " wrote " + messageText);
     }
 
     public void sendText(Long recipientId, String text) {

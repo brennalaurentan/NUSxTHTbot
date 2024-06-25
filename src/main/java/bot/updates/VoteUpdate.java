@@ -8,7 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
 public class VoteUpdate {
 
     Update currentUpdate = null;
-    Poll mostRecentPoll =
 
     public VoteUpdate(Update update, Poll mostRecentPoll) {
     }

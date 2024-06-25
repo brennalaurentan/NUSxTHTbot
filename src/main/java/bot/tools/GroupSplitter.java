@@ -1,4 +1,4 @@
-package bot.utility;
+package bot.tools;
 
 import java.util.ArrayList;
 

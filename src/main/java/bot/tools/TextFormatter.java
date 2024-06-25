@@ -1,4 +1,6 @@
-package bot.utility;
+package bot.tools;
+
+import bot.utility.Vote;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ public class TextFormatter {
                 headerText + "\n"
                         + firstGroupText + "\n\n"
                         + secondGroupText;
+        System.out.println(finalFormattedMessage);
         return finalFormattedMessage;
     }
 

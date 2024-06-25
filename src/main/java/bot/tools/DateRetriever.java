@@ -1,4 +1,4 @@
-package bot.utility;
+package bot.tools;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
