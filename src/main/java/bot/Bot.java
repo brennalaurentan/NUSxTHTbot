@@ -1,4 +1,5 @@
 package bot;
+import bot.commands.PollCommand;
 import bot.utility.PollResult;
 import bot.utility.Vote;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -52,30 +53,9 @@ public class Bot extends TelegramLongPollingBot {
             PollAnswer thisPollAnswer = update.getPollAnswer();
             mostRecentPollResult.update(thisPollAnswer, mostRecentPoll);
         } else if (isPollCommand(update)) {
-            Message message = update.getMessage();
-            Long chatId = message.getChatId();
-            String messageText = message.getText();
-            User sender = message.getFrom();
-            Long senderId = sender.getId();
-            String senderUsername = sender.getFirstName();
-
-            List<String> optionList = new ArrayList<>();
-            optionList.add("Coming");
-            optionList.add("Not coming");
-            SendPoll sendPollObj = new SendPoll(chatId.toString(), getNextThursday(), optionList);
-            sendPollObj.setIsAnonymous(false);
-
-            try {
-                Message returnMessage = execute(sendPollObj);
-                if (returnMessage.hasPoll()) {
-                    mostRecentPoll = returnMessage.getPoll();
-                    mostRecentPollResult = new PollResult(mostRecentPoll);
-                    mostRecentPollId = mostRecentPoll.getId();
-                }
-                mostRecentPollComing = new ArrayList<>();
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
+            PollCommand newPollCommand = new PollCommand(update, this);
+            mostRecentPoll = newPollCommand.getNewPoll();
+            mostRecentPollResult = new PollResult(mostRecentPoll);
         } else if (isAllocateCommand(update)) {
                 Message message = update.getMessage();
                 Long chatId = message.getChatId();
@@ -99,8 +79,6 @@ public class Bot extends TelegramLongPollingBot {
                 }
                 String allocationMessage = getFormattedAllocateText(pollHeader, firstGroup, secondGroup);
                 sendText(chatId, allocationMessage);
-
-            }
         }
     }
 
