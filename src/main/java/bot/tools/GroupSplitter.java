@@ -3,19 +3,28 @@ package bot.tools;
 import java.util.ArrayList;
 
 public class GroupSplitter {
-    public static ArrayList<Integer> getSplitGroupNumbers(Integer totalGroupSize) {
+
+    private static final int TWO_GROUPS = 2;
+
+    public static ArrayList<Integer> splitIntoTwoGroups(int totalGroupSize) {
         ArrayList<Integer> groupSizes = new ArrayList<>();
-        if (totalGroupSize % 2 == 0) {
-            int oneGroupSize = totalGroupSize / 2;
-            groupSizes.add(oneGroupSize);
-            groupSizes.add(oneGroupSize);
+        int firstGroupSize;
+        int secondGroupSize;
+        if (isEven(totalGroupSize)) {
+            int eachGroupSize = totalGroupSize / TWO_GROUPS;
+            firstGroupSize = eachGroupSize;
+            secondGroupSize = eachGroupSize;
         } else {
-            int oneGroupSize = (totalGroupSize / 2) + 1;
-            int otherGroupSize = totalGroupSize / 2;
-            groupSizes.add(oneGroupSize);
-            groupSizes.add(otherGroupSize);
+            firstGroupSize = (totalGroupSize / TWO_GROUPS) + 1;
+            secondGroupSize = totalGroupSize / TWO_GROUPS;
         }
+        groupSizes.add(firstGroupSize);
+        groupSizes.add(secondGroupSize);
         System.out.println("[GroupSplitter] Total: " + totalGroupSize + ", Split: " + groupSizes);
         return groupSizes;
+    }
+
+    private static boolean isEven(int totalGroupSize) {
+        return totalGroupSize % 2 == 0;
     }
 }
