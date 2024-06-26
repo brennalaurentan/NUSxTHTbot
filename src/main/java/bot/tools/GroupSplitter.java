@@ -15,6 +15,7 @@ public class GroupSplitter {
             groupSizes.add(oneGroupSize);
             groupSizes.add(otherGroupSize);
         }
+        System.out.println("[GroupSplitter] Total: " + totalGroupSize + ", Split: " + groupSizes);
         return groupSizes;
     }
 }
