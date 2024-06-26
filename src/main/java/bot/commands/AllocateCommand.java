@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.ArrayList;
 
-import static bot.tools.GroupSplitter.getSplitGroupNumbers;
+import static bot.tools.GroupSplitter.splitIntoTwoGroups;
 import static bot.tools.StandardMessages.REACT_WHEN_BOOKED;
 import static bot.tools.StandardMessages.VOTE_BY_12PM;
 import static bot.tools.TextFormatter.getFormattedAllocateText;
@@ -37,7 +37,7 @@ public class AllocateCommand {
     public void buildAllocationsText() {
         String pollQuestion = pollResult.getPollQuestion();
         int numComing = pollResult.getNumComing();
-        splitGroupSizes = getSplitGroupNumbers(numComing);
+        splitGroupSizes = splitIntoTwoGroups(numComing);
         firstGroup = new ArrayList<>();
         secondGroup = new ArrayList<>();
         int firstGroupSize = splitGroupSizes.get(0);
