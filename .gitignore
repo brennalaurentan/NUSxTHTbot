@@ -39,5 +39,4 @@ build/
 .DS_Store
 
 ### Config File ###
-/config.json
-/BotConfig.java
+src/main/java/bot/BotConfig.java
