@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static bot.tools.DateRetriever.getNextThursday;
+import static bot.tools.StandardMessages.VOTE_BY_12PM;
 
 public class PollCommand {
 
@@ -38,9 +39,14 @@ public class PollCommand {
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
+        sendVoteBy12pmText(bot);
     }
 
     public Poll createNewPoll() {
         return newPoll;
+    }
+
+    public void sendVoteBy12pmText(Bot bot) {
+        bot.sendText(chatId, VOTE_BY_12PM);
     }
 }

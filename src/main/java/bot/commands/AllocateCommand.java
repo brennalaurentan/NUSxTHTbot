@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import java.util.ArrayList;
 
 import static bot.tools.GroupSplitter.getSplitGroupNumbers;
+import static bot.tools.StandardMessages.REACT_WHEN_BOOKED;
+import static bot.tools.StandardMessages.VOTE_BY_12PM;
 import static bot.tools.TextFormatter.getFormattedAllocateText;
 
 public class AllocateCommand {
@@ -55,5 +57,10 @@ public class AllocateCommand {
     public void sendAllocationsText(Bot bot) {
         buildAllocationsText();
         bot.sendText(chatId, allocationsText);
+        sendReactWhenBookedText(bot);
+    }
+
+    public void sendReactWhenBookedText(Bot bot) {
+        bot.sendText(chatId, REACT_WHEN_BOOKED);
     }
 }
