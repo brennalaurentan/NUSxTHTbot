@@ -1,14 +1,10 @@
 package bot.commands;
 
 import bot.Bot;
-import bot.utility.PollResult;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
@@ -44,7 +40,7 @@ public class PollCommand {
         }
     }
 
-    public Poll getNewPoll() {
+    public Poll createNewPoll() {
         return newPoll;
     }
 }

@@ -11,7 +11,6 @@ import static bot.tools.TextFormatter.getFormattedVoteUpdateText;
 public class PollResult {
     private Poll poll;
     private ArrayList<User> comingUserList;
-    private ArrayList<User> notComingUserList;
     private static final int OPTION_COMING = 0;
     private static final int OPTION_NOT_COMING = 1;
 
@@ -20,8 +19,8 @@ public class PollResult {
         comingUserList = new ArrayList<>();
     }
 
-    public void update(PollAnswer thisPollAnswer, Poll existingPoll) {
-        if (!pollAnswerMatchesPollId(thisPollAnswer, existingPoll)) {
+    public void update(PollAnswer thisPollAnswer) {
+        if (!pollAnswerMatchesPollId(thisPollAnswer, poll)) {
             return;
         }
 
@@ -48,4 +47,15 @@ public class PollResult {
         return givenPollAnswer.getPollId().equals(givenPoll.getId());
     }
 
+    public String getPollQuestion() {
+        return poll.getQuestion();
+    }
+
+    public int getNumComing() {
+        return comingUserList.size();
+    }
+
+    public ArrayList<User> getComingList() {
+        return comingUserList;
+    }
 }
