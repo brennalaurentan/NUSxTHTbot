@@ -26,7 +26,10 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return System.getenv("TELEGRAM_BOT_TOKEN"); // replace with your own bot token
+        System.out.println(System.getenv("TELEGRAM_BOT_TOKEN"));
+        System.out.println(System.getenv("USERNAME")); // not working???
+        //return System.getenv("TELEGRAM_BOT_TOKEN"); // replace with your own bot token
+        return botToken;
     }
 
 
