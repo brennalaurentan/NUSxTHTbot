@@ -1,4 +1,5 @@
 package bot;
+
 import bot.commands.AllocateCommand;
 import bot.commands.PollCommand;
 import bot.utility.PollResult;
@@ -25,8 +26,8 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return botToken;
-    } // replace with your own bot token
+        return System.getenv("TELEGRAM_BOT_TOKEN"); // replace with your own bot token
+    }
 
 
     @Override
