@@ -1,1 +1,2 @@
 runtime: java17
+entrypoint: java -jar NUSxTHTbot-1.0-SNAPSHOT.war
