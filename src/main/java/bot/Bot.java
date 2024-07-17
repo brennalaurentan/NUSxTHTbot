@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollAnswer;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import static bot.BotConfig.botToken;
+//import static bot.BotConfig.botToken;
 import static bot.commands.CommandValidator.isAllocateCommand;
 import static bot.commands.CommandValidator.isPollAnswer;
 import static bot.commands.CommandValidator.isPollCommand;
