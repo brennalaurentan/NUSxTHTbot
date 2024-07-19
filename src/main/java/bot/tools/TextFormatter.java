@@ -27,9 +27,15 @@ public class TextFormatter {
     public static String getFormattedVoteUpdateText(String username, Vote voteType) {
         String voteStatus = "undetermined";
         switch (voteType) {
-            case Coming -> voteStatus = "voted COMING";
-            case NotComing -> voteStatus = "voted NOT COMING";
-            case Retract -> voteStatus = "RETRACTED VOTE";
+        case Coming:
+            voteStatus = "voted COMING";
+            break;
+        case NotComing:
+            voteStatus = "voted NOT COMING";
+            break;
+        case Retract:
+            voteStatus = "RETRACTED VOTE";
+            break;
         }
         String finalFormattedMessage =
                 "POLL ANSWER DETECTED: " + username + " " + voteStatus;
