@@ -1,4 +1,4 @@
-NUSxTHTbot is a Telegram bot assisting in sending attendance polls and allocating groupings for weekly NUSTKD training sessions with THT.
+NUSxTHTbot is a Telegram bot assisting in sending attendance polls and allocating groupings for weekly NUSTKD training sessions with tricking academy THT.
 
 The bot is complete and functional (@NUSxTHTbot on Telegram), however is currently not usable as it is not being hosted.
 
