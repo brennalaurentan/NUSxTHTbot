@@ -30,15 +30,16 @@ public class PollResult {
         if (thisPollAnswer.getOptionIds().isEmpty()) {
             comingUserList.remove(sender); // removes only if user is in list
             System.out.println(getFormattedVoteUpdateText(senderUsername, Vote.Retract));
-            System.out.println("Current coming: " + comingUserList.toString());
+            System.out.println("[PollResult] Current coming: " + comingUserList.toString());
         } else if (thisPollAnswer.getOptionIds().get(0).equals(OPTION_COMING)) {
-            comingUserList.add(sender);
+            comingUserList.add(sender); // second user onwards not being added, not sure why
             System.out.println(getFormattedVoteUpdateText(senderUsername, Vote.Coming));
-            System.out.println("Current coming: " + comingUserList.toString());
+            System.out.println("[PollResult] Current coming: " + comingUserList.toString());
+            System.out.println("[PollResult] User details: " + sender);
         } else if (thisPollAnswer.getOptionIds().get(0).equals(OPTION_NOT_COMING)) {
             comingUserList.remove(sender);
             System.out.println(getFormattedVoteUpdateText(senderUsername, Vote.NotComing));
-            System.out.println("Current coming: " + comingUserList.toString());
+            System.out.println("[PollResult] Current coming: " + comingUserList.toString());
         }
 
     }
