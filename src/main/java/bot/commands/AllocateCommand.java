@@ -47,7 +47,7 @@ public class AllocateCommand {
             firstGroup.add(username);
         }
         for (int j = 0; j < secondGroupSize; j++) {
-            String username = comingUserList.get(j).getUserName();
+            String username = comingUserList.get(firstGroupSize + j).getUserName();
             secondGroup.add(username);
         }
 
