@@ -38,7 +38,7 @@ public class TextFormatter {
             break;
         }
         String finalFormattedMessage =
-                "POLL ANSWER DETECTED: " + username + " " + voteStatus;
+                "[TextFormatter] POLL ANSWER DETECTED: " + username + " " + voteStatus;
         return finalFormattedMessage;
     }
 }
