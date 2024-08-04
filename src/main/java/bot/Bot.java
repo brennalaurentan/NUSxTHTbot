@@ -32,7 +32,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println("Update received");
+        System.out.println("[Bot] Update received");
         System.out.println(update.toString());
 
         if (isPollCommand(update)) {
